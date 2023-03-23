@@ -2,7 +2,7 @@
 
 ###### Metadata about air quality:
 
-[http://airviro.klab.ee/](Eesti välisõhu kvaliteet)
+[Eesti välisõhu kvaliteet](http://airviro.klab.ee/)
 
 | Attr  | example value | unit    | Description                 |
 | ----- | ------------- | ------- | --------------------------- |
