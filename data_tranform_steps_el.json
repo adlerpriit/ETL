@@ -1,0 +1,69 @@
+[
+  {
+    "op": "core/column-removal",
+    "columnName": "Lõpp",
+    "description": "Remove column Lõpp"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "Column",
+    "description": "Remove column Column"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Algus",
+    "expression": "grel:value.replace('.', '-').toDate()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Algus using expression grel:value.replace('.', '-').toDate()"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Kogus (kWh)",
+    "expression": "grel:value.replace(',', '.').toNumber()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Kogus (kWh) using expression grel:value.replace(',', '.').toNumber()"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Börsihind (EUR / MWh)",
+    "expression": "grel:value.replace(',', '.').toNumber()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Börsihind (EUR / MWh) using expression grel:value.replace(',', '.').toNumber()"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "Algus",
+    "newColumnName": "DateTime",
+    "description": "Rename column Algus to DateTime"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "Kogus (kWh)",
+    "newColumnName": "Elec",
+    "description": "Rename column Kogus (kWh) to Elec"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "Börsihind (EUR / MWh)",
+    "newColumnName": "Price",
+    "description": "Rename column Börsihind (EUR / MWh) to Price"
+  }
+]
