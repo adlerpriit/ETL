@@ -1,0 +1,62 @@
+---
+title: "Parquet"
+author: "Priit Adler"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load DBI library and make duckDB connection (on disk)
+
+```{r}
+if (!requireNamespace("duckdb", quietly = TRUE)) {
+  install.packages("duckdb")
+}
+library("DBI")
+con <- dbConnect(duckdb::duckdb(), dbdir = "duck.db", read_only = FALSE)
+```
+
+## Make data available for querying
+
+```{r}
+library("tidyverse")
+# dbExecute(con, " CREATE VIEW pep AS SELECT * FROM read_parquet('GMM*/peptides.parquet'); ")
+
+```
+
+```{r}
+dbGetQuery(con, " DESCRIBE air; ")
+
+```
+
+```{r}
+air <- tibble(dbGetQuery(con, " SELECT * FROM air WHERE regexp_matches(Kuupäev, '202.-01-'); "))
+air
+```
+
+```{r}
+library("lubridate")
+air <- air %>% mutate(DateTime = parse_date_time(Kuupäev, "%Y-%m-%d %H:%M"))
+```
+
+```{r}
+air
+```
+
+```{r}
+pl <- ggplot(air, aes(x=DateTime, y=TEMP))
+pl <- pl + geom_line() + geom_point()
+```
+
+```{r}
+pl
+```
+
+## Explicitly close down the DB
+
+```{r}
+dbDisconnect(con, shutdown=TRUE)
+```

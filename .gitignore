@@ -3,3 +3,6 @@
 *.tsv
 *.db
 .vscode/*
+.Rproj.user
+.Rhistory
+*.parquet
