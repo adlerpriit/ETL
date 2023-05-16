@@ -23,7 +23,11 @@ con <- dbConnect(duckdb::duckdb(), dbdir = "duck.db", read_only = FALSE)
 
 ```{r}
 library("tidyverse")
-# dbExecute(con, " CREATE VIEW pep AS SELECT * FROM read_parquet('GMM*/peptides.parquet'); ")
+dbExecute(con, " DROP VIEW IF EXISTS air; ")
+dbExecute(con, " CREATE VIEW air AS SELECT * FROM read_parquet([
+  'air_data/air-2020.parquet', 
+  'air_data/air-2021.parquet', 
+  'air_data/air-2022.parquet']); ")
 
 ```
 
@@ -33,7 +37,8 @@ dbGetQuery(con, " DESCRIBE air; ")
 ```
 
 ```{r}
-air <- tibble(dbGetQuery(con, " SELECT * FROM air WHERE regexp_matches(Kuupäev, '202.-01-'); "))
+air <- tibble(dbGetQuery(con, " SELECT * FROM air 
+  WHERE regexp_matches(Kuupäev, '202.-01-'); "))
 air
 ```
 
@@ -48,7 +53,7 @@ air
 
 ```{r}
 pl <- ggplot(air, aes(x=DateTime, y=TEMP))
-pl <- pl + geom_line() + geom_point()
+pl <- pl + geom_point()
 ```
 
 ```{r}
